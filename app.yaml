@@ -21,17 +21,17 @@ handlers:
 
 
 - url: /
-  static_files: index.html
-  upload: index.html
+  static_files: html/index.html
+  upload: html/index.html
 
 - url: /js
-  static_dir: js
+  static_dir: html/js
 
 - url: /css
-  static_dir: css
+  static_dir: html/css
 
 - url: /images
-  static_dir: images
+  static_dir: html/images
 
 # This handler tells app engine how to route requests to a WSGI application.
 # The script value is in the format <path.to.module>.<wsgi_application>
