@@ -20,8 +20,8 @@ handlers:
 # (and subdirectories). Uncomment and set the directory as needed.
 
 
-- url: /html
-  static_dir: html
+- url: /
+  static_dir: index.html
 
 - url: /js
   static_dir: js
