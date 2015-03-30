@@ -4,6 +4,8 @@ var imageList = null,
 
 $(document).ready(function() {
 
+
+
     // Get user logged in some way...
     imageList = localStorage.getItem('currentImageList');
     imageId = imageList[0];
@@ -33,6 +35,7 @@ $(document).ready(function() {
 
 });
 
+/*
 function getImage(imageID) {
     $.ajax({
         type: 'get',
@@ -47,4 +50,4 @@ function getImage(imageID) {
 
         }
     });
-}       \
+}*/
