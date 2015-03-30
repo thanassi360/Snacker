@@ -23,6 +23,9 @@ handlers:
 - url: /
   static_dir: html
 
+- url: /
+  static_files: index.html
+
 - url: /js
   static_dir: js
 
