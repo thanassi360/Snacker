@@ -21,16 +21,14 @@ handlers:
 
 
 - url: /
-  static_dir: html
-
-- url: /
   static_files: index.html
+  upload: index.html
 
 - url: /js
   static_dir: js
 
-- url: /stylesheets
-  static_dir: stylesheets
+- url: /css
+  static_dir: css
 
 - url: /images
   static_dir: images
