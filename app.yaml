@@ -21,7 +21,7 @@ handlers:
 
 
 - url: /
-  static_dir: ~/index.html
+  static_dir: html
 
 - url: /js
   static_dir: js
