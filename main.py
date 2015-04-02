@@ -34,7 +34,7 @@ class Photo(ndb.Model):
     uploaded = ndb.DateTimeProperty(auto_now_add=True)
 
     def tojson(self):
-        return '{"src": "%s","username": "%s", "user id": "%s", "description": "%s" "uploaded": "%s"}' % (self.blob_key, self.username, self.user,
+        return '{"src": "%s","username": "%s", "user id": "%s", "description": "%s", "uploaded": "%s"}' % (self.blob_key, self.username, self.user,
                                                                                                           self.description, self.uploaded.strftime("%H:%M"))
 
 class Follower(ndb.Model):
@@ -47,7 +47,7 @@ class Likes(ndb.Model):
     user = ndb.StringProperty()
 
 
-class StreamHandler(webapp2.RequestHandler):
+class HomeHandler(webapp2.RequestHandler):
     def get(self):
         currentuser = users.get_current_user()
         if currentuser:
@@ -65,14 +65,22 @@ class StreamHandler(webapp2.RequestHandler):
         else:
             self.redirect(users.create_login_url())
 
+
+class StreamHandler(webapp2.RequestHandler):
+    def get(self):
+        callback = self.request.get("callback")
         self.response.headers["Content-Type"] = 'application/json'
         userlist = Photo.query().fetch()
 
         strResponse = ""
-
+        json = ""
         for user in userlist:
             strResponse += user.tojson() + ','
-            json = "[" + strResponse[:-1] + "]"
+            if callback=='':
+                json = "[" + strResponse[:-1] + "]"
+            else:
+                json = callback+"([" + strResponse[:-1] + "])"
+
 
         self.response.write(json)
 
@@ -117,6 +125,7 @@ class ThumbHandler(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
+    ('/login', HomeHandler),
     ('/stream', StreamHandler),
     ('/upload', UploadHandler),
     ('/url', UrlHandler),
