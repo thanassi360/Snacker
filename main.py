@@ -34,8 +34,8 @@ class Photo(ndb.Model):
     uploaded = ndb.DateTimeProperty(auto_now_add=True)
 
     def tojson(self):
-        return '{"src": "%s","username": "%s", "user id": "%s", "description": "%s", "uploaded": "%s"}' % (self.blob_key, self.username, self.user,
-                                                                                                          self.description, self.uploaded.strftime("%H:%M"))
+        return '{"src": "%s","username": "%s", "user_id": "%s", "description": "%s", "uploaded": "%s"}' % (self.blob_key, self.username, self.user,
+                                                                                                           self.description,self.uploaded.strftime("%H:%M"))
 
 class Follower(ndb.Model):
     user = ndb.StringProperty()
@@ -63,19 +63,18 @@ class HomeHandler(webapp2.RequestHandler):
                 user.key = ndb.Key(User, currentuser.user_id())
                 user.put()
         else:
-            self.redirect(users.create_login_url())
+            self.redirect(users.create_login_url('/'))
 
 
 class StreamHandler(webapp2.RequestHandler):
     def get(self):
         callback = self.request.get("callback")
         self.response.headers["Content-Type"] = 'application/json'
-        userlist = Photo.query().fetch()
-
+        images = Photo.query().fetch()
         strResponse = ""
         json = ""
-        for user in userlist:
-            strResponse += user.tojson() + ','
+        for image in images:
+            strResponse += image.tojson() + ','
             if callback=='':
                 json = "[" + strResponse[:-1] + "]"
             else:
@@ -87,9 +86,13 @@ class StreamHandler(webapp2.RequestHandler):
 
 class UrlHandler(webapp2.RequestHandler):
     def get(self):
+        callback = self.request.get("callback")
         url = blobstore.create_upload_url("/upload")
         self.response.headers["Content-Type"] = 'application/json'
-        upload = "[{'url': '%s'}]" % str(url)
+        if callback == '':
+            upload = "[{'url': '%s'}]" % str(url)
+        else:
+            upload = callback+"([{'url': '%s'}])" % str(url)
         self.response.out.write(upload)
 
 
@@ -97,8 +100,9 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
         currentuser = users.get_current_user()
         upload_files = self.get_uploads("blob")
+        description = self.request.get("description")
         blob = upload_files[0]
-        photo = Photo(user=currentuser.user_id(), blob_key=blob.key())
+        photo = Photo(user=currentuser.user_id(), blob_key=blob.key(), description=description)
         photo.put()
 
 
@@ -133,29 +137,6 @@ app = webapp2.WSGIApplication([
     ('/thumb/(.*)', ThumbHandler),
     ], debug=True)
 
-
-
-
-
-
-
-
-"""
-
-"""
-"""
-class ThumbHandler(webapp2.RequestHandler):
-    def get(self, resource):
-        resource = str(urllib.unquote(resource))
-        img = images.Image(blob_key=resource)
-        img.resize(width=200, height=200)
-        img.im_feeling_lucky()
-        thumbnail = img.execute_transforms(output_encoding=images.JPEG)
-
-        self.response.headers['Content-Type'] = "image/jpeg"
-        self.response.out.write(thumbnail)
-        return
-"""
 """
 class UserHandler(webapp2.RequestHandler):
     def get(self, resource):

@@ -6,7 +6,7 @@
     <title>Capture</title>
     <script src="js/jquery-1.11.2.js"></script>
     <script src="css/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/js.js"></script>
+    <script src="js/postScript.js"></script>
     <link href="css/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -45,8 +45,23 @@
         </div>
     </nav>
 
-    <a>Capture Page</a>
-    <br>
+    <div id="timeline">
+        <div id="statusUpdate">
+            <span id="status"></span>
+        </div>
+        <ul id="postPane">
+            <form>
+                Username: BOX GOES HERE
+                <br /><br />
+                Description: <input type="text" id="desc">
+                <br /><br />
+                <input type="file" name="blob" id="pict">
+                <br />
+                <button id="postButton" type="button">Send Post</button>
+            </form>
+
+        </ul>
+    </div>
     <a href="http://fengyuanchen.github.io/cropper/?utm_source=jquer.in&utm_medium=website&utm_campaign=content-curation">Cropper</a>
 
     <nav class="navbar navbar-default navbar-fixed-bottom">

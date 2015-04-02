@@ -48,3 +48,18 @@
         text-align: justify;
     }
 }
+
+#statusUpdate{
+    width: 100%;
+    height:20px;
+    text-align: center;
+}
+#status{
+
+}
+#lastUpdate{
+
+}
+#postPane{
+    border: solid red 1px;
+}
