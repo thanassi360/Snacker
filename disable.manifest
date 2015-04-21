@@ -1,0 +1,22 @@
+CACHE MANIFEST
+# 2015-04-13  v1.24
+
+
+CACHE:
+/
+/js/getScript.js
+/js/jquery-1.11.2.js
+/js/postScript.js
+/images/camera.png
+/images/favicon.png
+css/bootstrap/js/bootstrap.min.js
+css/bootstrap/css/bootstrap-theme.min.css
+css/bootstrap/css/bootstrap.min.css
+http://fonts.googleapis.com/css?family=Lobster
+css/style.css
+
+SETTINGS:
+prefer-online
+
+NETWORK:
+*

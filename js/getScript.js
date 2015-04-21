@@ -1,12 +1,24 @@
-var URL = "http://127.0.0.1:8080/";
-//var URL = "http://snackerapp.appspot.com/";
+//var URL = "http://127.0.0.1:8080/";
+var URL = "http://snackerapp.appspot.com/";
 
 $(document).ready( function() {
     // First stage is always to wire up the user-interface controls.
     // 1. The POST button...
     doGetRequest();
     checkConnection();
+    $('body').on('click', 'button[name=comment]', function(){
+        var buttonVal = $(this).val();
+        var comment = document.getElementById(buttonVal).value;
+        alert(comment);
+    });
+    $('body').on('click', 'a[name=comment]', function(){
+        var buttonVal = $(this).val();
+        var comment = document.getElementById(buttonVal).value;
+        alert(comment);
+    });
 });
+
+
 
 function checkConnection(){
     if(window.navigator.onLine){
@@ -52,8 +64,11 @@ function twoDigit(v) {
 function formatPost(postBody) {
     var html = "<div class='col-lg-4 col-sm-6 col-xs-12'>";
     html += "<img class='postImage' src='/serve/" + postBody.src + "' />" +
-            "<a class='postUser' href='/user/"+ postBody.username +"'>" + postBody.username + "</a>" +
-            "<p class='postComment'>" + postBody.description + "</p>";
+            "<p><a href='/user' name='"+ postBody.username +"' class='postUser' onclick='viewUser(this.name)'>" + postBody.username + " </a></p>" +
+            "<p class='postComment'>" + postBody.description + "</p>" +
+            "<form>" +
+            "<textarea rows='4' cols='50' id='"+postBody.src+"'></textarea>" +
+            "<button type='button' name='comment' value='"+postBody.src+"'>Comment</button></form>";
     html += "</div>";
     return html;
 }
@@ -71,3 +86,10 @@ function handlePosts(posts) {
 function displayResults(list){
     $("#timelineFeed").html(list);
 }
+
+function viewUser(userName){
+    var user = userName;
+    console.log(user);
+    localStorage.setItem("view_user", user);
+
+};

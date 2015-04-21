@@ -1,11 +1,9 @@
-var URL = "http://127.0.0.1:8080/url";
-//var URL = "http://snackerapp.appspot.com/url";
+//var URL = "http://127.0.0.1:8080/";
+var URL = "http://snackerapp.appspot.com/";
 
 var uploadURL = "";
 
 $(document).ready( function() {
-    // First stage is always to wire up the user-interface controls.
-    // 1. The POST button...
     $("#postButton").bind('click', function(event){
     	postNewMessage();
         // prevent default posting of the form (since we're making an Ajax call)...
@@ -18,7 +16,7 @@ function getURL() {
 	// The parameters for this are important.
     $.ajax({
         type: "GET",						// The HTTP operation
-        url: URL,	            	// The URL
+        url: URL + "url",	            	// The URL
         async: true,						// This is the default
         contentType: "application/json",	// MIME type function expects...
         dataType: 'jsonp',					// ...and the type of data expected
@@ -49,7 +47,8 @@ function doPostRequest(formData) {
 
 function postNewMessage() {
     var description=$("#desc").val(),
-        image=$("#pict").get(0).files[0];
+        //image=$("#pict").get(0).files[0];
+        image=$("#pict").val();
         var formData = new FormData();
         var blob = new Blob([image],{type:"image/jpeg"});
         formData.append("blob",blob);

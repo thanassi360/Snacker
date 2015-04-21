@@ -7,6 +7,7 @@
     <script src="js/jquery-1.11.2.js"></script>
     <script src="css/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/postScript.js"></script>
+    <script src="js/jquery.cropit.js"></script>
     <link href="css/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -50,25 +51,63 @@
             <span id="status"></span>
         </div>
         <ul id="postPane">
-            <form>
+
+            <!--<form>
                 Username: BOX GOES HERE
                 <br /><br />
                 Description: <input type="text" id="desc">
                 <br /><br />
                 <input type="file" name="blob" id="pict">
                 <br />
-                <button id="postButton" type="button">Send Post</button>
+            </form>-->
+
+            <form action="#">
+                <div class="image-editor">
+                    <input type="file" class="cropit-image-input">
+                    <div class="cropit-image-preview"></div>
+                    <div class="image-size-label">
+                        Resize image
+                    </div>
+                    <input type="range" class="cropit-image-zoom-input" style="width: 250px;">
+                    <button type="submit" >Click to Resize</button>
+                    <p>Description: <input type="text" id="desc"></p>
+                    <input type="hidden" name="blob" class="hidden-image-data" id="pict" />
+                    <button id="postButton" type="button">Send Post</button>
+                </div>
             </form>
 
+            <div id="result">
+                <code>$form.serialize() =</code>
+                <code id="result-data"></code>
+            </div>
+
+            <script>
+                $(function() {
+                    $('.image-editor').cropit();
+
+                    $('form').submit(function() {
+                    // Move cropped image data to hidden input
+                    var imageData = $('.image-editor').cropit('export');
+                    $('.hidden-image-data').val(imageData);
+
+                    // Print HTTP request params
+                    var formValue = $(this).serialize();
+                    $('#result-data').text(formValue);
+
+                    // Prevent the form from actually submitting
+                    return false;
+                    });
+                });
+            </script>
         </ul>
     </div>
-    <a href="http://fengyuanchen.github.io/cropper/?utm_source=jquer.in&utm_medium=website&utm_campaign=content-curation">Cropper</a>
+    <!-- <a href="http://fengyuanchen.github.io/cropper/?utm_source=jquer.in&utm_medium=website&utm_campaign=content-curation">Cropper</a> -->
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div role="group" class="btn-group-lg btn-group-justified">
             <a href="/" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
             <a href="/capture" class="btn btn-lg" role="button"><img src="images/camera.png" alt="capture" height="50px"></a>
-            <a href="/user" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+            <a href="/profile" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
         </div>
     </nav>
 </div>
