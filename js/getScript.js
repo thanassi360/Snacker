@@ -9,12 +9,22 @@ $(document).ready( function() {
     $('body').on('click', 'button[name=comment]', function(){
         var buttonVal = $(this).val();
         var comment = document.getElementById(buttonVal).value;
+        $("#"+buttonVal).css('display', 'none');
+        $("#but-"+buttonVal).css('display', 'none');
+        document.getElementById(buttonVal).value = "";
         alert(comment);
+        //doCommentPost(buttonVal, comment);
     });
-    $('body').on('click', 'a[name=comment]', function(){
-        var buttonVal = $(this).val();
-        var comment = document.getElementById(buttonVal).value;
-        alert(comment);
+    $('body').on('click', 'button[name=allowComment]', function(){
+        var showID = $(this).val();
+        if($("#"+showID).css('display')== 'none'){
+            $("#"+showID).css('display', 'block');
+            $("#but-"+showID).css('display', 'block');
+        }
+        else{
+            $("#"+showID).css('display', 'none');
+            $("#but-"+showID).css('display', 'none');
+        }
     });
 });
 
@@ -64,11 +74,11 @@ function twoDigit(v) {
 function formatPost(postBody) {
     var html = "<div class='col-lg-4 col-sm-6 col-xs-12'>";
     html += "<img class='postImage' src='/serve/" + postBody.src + "' />" +
-            "<p><a href='/user' name='"+ postBody.username +"' class='postUser' onclick='viewUser(this.name)'>" + postBody.username + " </a></p>" +
-            "<p class='postComment'>" + postBody.description + "</p>" +
+            "<p class='postComment'><a href='/user' name='"+ postBody.username +"' class='postUser' onclick='viewUser(this.name)'>" + postBody.username + ": </a>" + postBody.description + "</p>" +
             "<form>" +
-            "<textarea rows='4' cols='50' id='"+postBody.src+"'></textarea>" +
-            "<button type='button' name='comment' value='"+postBody.src+"'>Comment</button></form>";
+            "<button name='allowComment' value='"+postBody.src+"' type='button' class='btn btn-default'><span class='comment glyphicon glyphicon-pencil' aria-hidden='true'></span></button>" +
+            "<textarea style='display:none;' rows='4' cols='40' id='"+postBody.src+"'></textarea>" +
+            "<button style='display:none;float:right;' type='button' name='comment' id='but-"+postBody.src+"' value='"+postBody.src+"'><span class='comment glyphicon glyphicon-send' aria-hidden='true'></span></button></form>";
     html += "</div>";
     return html;
 }
@@ -92,4 +102,4 @@ function viewUser(userName){
     console.log(user);
     localStorage.setItem("view_user", user);
 
-};
+}

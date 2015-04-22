@@ -1,5 +1,5 @@
-var URL = "http://127.0.0.1:8080/";
-//var URL = "http://snackerapp.appspot.com/";
+//var URL = "http://127.0.0.1:8080/";
+var URL = "http://snackerapp.appspot.com/";
 var user = localStorage.getItem("current_user");
 
 

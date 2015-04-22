@@ -79,6 +79,9 @@
 textarea{
     resize: none;
 }
+.comment{
+    font-size: 20px;
+}
 
 /*////// Cropping Tool //////*/
 .cropit-image-preview {
