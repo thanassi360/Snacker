@@ -19,7 +19,7 @@ $(document).ready( function() {
         var showID = $(this).val();
         if($("#"+showID).css('display')== 'none'){
             $("#"+showID).css('display', 'block');
-            $("#but-"+showID).css('display', 'block');
+            $("#but-"+showID).css('display', 'inline');
         }
         else{
             $("#"+showID).css('display', 'none');
@@ -62,6 +62,21 @@ function doGetRequest() {
     $("#lastUpdate").text("Last updated: " + t);
 }
 
+/*function doCommentPost(formData) {
+    $.ajax({
+        type: "POST",
+        url: uploadURL,
+        data: formData,
+        dataType: "json",
+        processData: false,
+        contentType: false
+    }).done(function(data, textStatus, jqXHR){ // None of these params are used (see jQuery docs)
+        console.log(formData);
+    }).always(function(data, textStatus){
+
+    });
+}*/
+
 // Generic function to format time strings etc...
 function twoDigit(v) {
     if(v < 10) {
@@ -77,8 +92,8 @@ function formatPost(postBody) {
             "<p class='postComment'><a href='/user' name='"+ postBody.username +"' class='postUser' onclick='viewUser(this.name)'>" + postBody.username + ": </a>" + postBody.description + "</p>" +
             "<form>" +
             "<button name='allowComment' value='"+postBody.src+"' type='button' class='btn btn-default'><span class='comment glyphicon glyphicon-pencil' aria-hidden='true'></span></button>" +
-            "<textarea style='display:none;' rows='4' cols='40' id='"+postBody.src+"'></textarea>" +
-            "<button style='display:none;float:right;' type='button' name='comment' id='but-"+postBody.src+"' value='"+postBody.src+"'><span class='comment glyphicon glyphicon-send' aria-hidden='true'></span></button></form>";
+            "<button style='display:none;' type='button' name='comment' id='but-"+postBody.src+"' value='"+postBody.src+"' class='btn btn-default'><span class='comment glyphicon glyphicon-send' aria-hidden='true'></span></button></form>" +
+            "<textarea style='display:none;' rows='4' cols='40' id='"+postBody.photoid+"'></textarea>";
     html += "</div>";
     return html;
 }

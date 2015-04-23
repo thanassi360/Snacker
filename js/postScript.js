@@ -50,9 +50,11 @@ function postNewMessage() {
         //image=$("#pict").get(0).files[0];
         image=$("#pict").val();
         var formData = new FormData();
-        var blob = new Blob([image],{type:"image/jpeg"});
-        formData.append("blob",blob);
+        //var blob = new Blob([image],{type:"image/jpeg"});
+        formData.append("blob",image);
         formData.append("description",description);
         console.log(formData);
         doPostRequest(formData);
 }
+
+

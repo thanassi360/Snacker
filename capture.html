@@ -59,6 +59,7 @@
                 <br /><br />
                 <input type="file" name="blob" id="pict">
                 <br />
+                <button id="postButton" type="button">Send Post</button>
             </form>-->
 
             <form action="#">
@@ -71,7 +72,7 @@
                     <input type="range" class="cropit-image-zoom-input" style="width: 250px;">
                     <button type="submit" >Click to Resize</button>
                     <p>Description: <input type="text" id="desc"></p>
-                    <input type="hidden" name="blob" class="hidden-image-data" id="pict" />
+                    <input type="text" name="blob" class="hidden-image-data" id="pict" />
                     <button id="postButton" type="button">Send Post</button>
                 </div>
             </form>
@@ -93,6 +94,7 @@
                     // Print HTTP request params
                     var formValue = $(this).serialize();
                     $('#result-data').text(formValue);
+                        console.log(imageData);
 
                     // Prevent the form from actually submitting
                     return false;

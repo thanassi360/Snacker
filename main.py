@@ -2,13 +2,17 @@ import os
 import jinja2
 import urllib
 import webapp2
+import base64, re
+
 
 from uuid import uuid4
-from google.appengine.api import images
+from google.appengine.api import images, files
 from google.appengine.ext import ndb
 from google.appengine.api import users
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
+
+
 
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -36,6 +40,7 @@ class User(ndb.Model):
 
 class Photo(ndb.Model):
     blob_key = ndb.BlobKeyProperty()
+    photoid = ndb.StringProperty(required=True)
     userid = ndb.KeyProperty(kind=User, required=True)
     tags = ndb.StringProperty(repeated=True)
     description = ndb.StringProperty()
@@ -46,11 +51,14 @@ class Photo(ndb.Model):
                '"username": "%s",' \
                ' "user_id": "%s",' \
                ' "description": "%s",' \
+               ' "photoid": "%s"' \
                ' "uploaded": "%s"}' % (self.blob_key,
                                        username,
                                        self.userid,
                                        self.description,
+                                       self.photoid,
                                        self.uploaded.strftime("%d/%m/%Y"))
+
 
 
 class Comment(ndb.Model):
@@ -147,13 +155,28 @@ class UrlHandler(webapp2.RequestHandler):
 
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
+        self.response.headers["Access-Control-Allow-Origin"] = "*"
+
         currentuser = users.get_current_user()
         if currentuser:
             uploader = ndb.Key(User, users.get_current_user().user_id()).get()
-            upload_files = self.get_uploads("blob")
+
+            upload_files = self.request.get("blob")
+            data_to_64 = re.search(r'base64,(.*)', upload_files).group(1)
+            decoded = data_to_64.decode('base64')
+
+
+            saved = files.blobstore.create(mime_type='image/png')
+            with files.open(saved, 'a') as f:
+                f.write(decoded)
+            files.finalize(saved)
+
+            key = files.blobstore.get_blob_key(saved)
+
             description = self.request.get("description")
-            blob = upload_files[0]
-            photo = Photo(userid=uploader.key, blob_key=blob.key(), description=description)
+
+            photo = Photo(userid=uploader.key,photoid = str(key),blob_key= key, description=description)
+            photo.key = ndb.Key(Photo, str(key))
             photo.put()
         else:
             return "user logged out"
