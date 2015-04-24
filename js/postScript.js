@@ -17,7 +17,7 @@ function doPostRequest(formData) {
         dataType: "json",
         processData: false,
         contentType: false
-    }).done(function(data, textStatus, jqXHR){ // None of these params are used (see jQuery docs)
+    }).done(function(){ // None of these params are used (see jQuery docs)
         console.log(formData);
     }).always(function(data, textStatus){
 
@@ -27,7 +27,7 @@ function doPostRequest(formData) {
 function postNewMessage() {
     var description=$("#desc").val(),
         image=$("#pict").val(),
-        formData = JSON.stringify({"blob": image, "description": description})
+        formData = JSON.stringify({"blob": image, "description": description});
         console.log(formData);
         doPostRequest(formData);
 }

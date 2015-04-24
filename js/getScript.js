@@ -2,8 +2,6 @@
 var URL = "http://snackerapp.appspot.com/";
 
 $(document).ready( function() {
-    // First stage is always to wire up the user-interface controls.
-    // 1. The POST button...
     doGetRequest();
     checkConnection();
     $('body').on('click', 'button[name=comment]', function(){
@@ -116,5 +114,4 @@ function viewUser(userName){
     var user = userName;
     console.log(user);
     localStorage.setItem("view_user", user);
-
 }

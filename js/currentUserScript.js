@@ -19,7 +19,7 @@ function doUserGet() {
             handleUser(json);
         },
         error: function(e) {				// Do this if it failed
-            console.log("error");
+            console.log(e);
         }
     });
     // Good idea to display the last update time...

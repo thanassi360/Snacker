@@ -19,7 +19,7 @@ function doGetUser() {
                 handleUser(json);
             },
             error: function(e) {				// Do this if it failed
-                console.log("error");
+                console.log(e);
             }
         });
     }

@@ -1,14 +1,18 @@
-import os,\
-    jinja2, \
-    urllib, \
-    webapp2, \
-    logging, \
-    re, \
-    json
+import os
+import jinja2
+import urllib
+import webapp2
+import logging
+import re
+import json
+
 
 from uuid import uuid4
-from google.appengine.api import images, files, users
-from google.appengine.ext import ndb, blobstore
+from google.appengine.api import images, files
+from google.appengine.ext import ndb
+from google.appengine.api import users
+from google.appengine.ext import blobstore
+
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
