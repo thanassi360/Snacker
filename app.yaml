@@ -8,7 +8,7 @@
 # id.
 
 application: snackerapp
-version: alpha-309
+version: alpha-310
 runtime: python27
 api_version: 1
 threadsafe: yes

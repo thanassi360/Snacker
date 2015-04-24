@@ -1,15 +1,14 @@
-import os
-import jinja2
-import urllib
-import webapp2
+import os,\
+    jinja2, \
+    urllib, \
+    webapp2, \
+    logging, \
+    re, \
+    json
 
 from uuid import uuid4
-from google.appengine.api import images
-from google.appengine.ext import ndb
-from google.appengine.api import users
-from google.appengine.ext import blobstore
-from google.appengine.ext.webapp import blobstore_handlers
-
+from google.appengine.api import images, files, users
+from google.appengine.ext import ndb, blobstore
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -36,6 +35,7 @@ class User(ndb.Model):
 
 class Photo(ndb.Model):
     blob_key = ndb.BlobKeyProperty()
+    photoid = ndb.StringProperty(required=True)
     userid = ndb.KeyProperty(kind=User, required=True)
     tags = ndb.StringProperty(repeated=True)
     description = ndb.StringProperty()
@@ -46,10 +46,12 @@ class Photo(ndb.Model):
                '"username": "%s",' \
                ' "user_id": "%s",' \
                ' "description": "%s",' \
+               ' "photoid": "%s",' \
                ' "uploaded": "%s"}' % (self.blob_key,
                                        username,
                                        self.userid,
                                        self.description,
+                                       self.photoid,
                                        self.uploaded.strftime("%d/%m/%Y"))
 
 
@@ -96,17 +98,17 @@ class CurrentHandler(webapp2.RequestHandler):
         self.request.headers["Content-Type"] = 'application/json'
         current = User.query(User.userid == user)
         sresponse = ""
-        json = None
+        jsonop = None
         for user in current:
             sresponse += user.tojson()
 
             if callback is '':
-                json = sresponse
+                jsonop = sresponse
 
             else:
-                json = callback+"("+sresponse+")"
+                jsonop = callback+"("+sresponse+")"
 
-        self.response.write(json)
+        self.response.write(jsonop)
 
 
 class StreamHandler(webapp2.RequestHandler):
@@ -115,7 +117,7 @@ class StreamHandler(webapp2.RequestHandler):
         self.response.headers["Content-Type"] = 'application/json'
         pictures = Photo.query().order(-Photo.uploaded).fetch()
         sresponse = ""
-        json = None
+        jsonop = None
         for picture in pictures:
             username = picture.userid.get().name
             sresponse += picture.tojson(username)[:-1] + ', "comments" : ['
@@ -126,11 +128,11 @@ class StreamHandler(webapp2.RequestHandler):
 
             sresponse += ']},'
             if callback is '':
-                json = "[" + sresponse[:-1] + "]"
+                jsonop = "[" + sresponse[:-1] + "]"
             else:
-                json = callback+"([" + sresponse[:-1] + "])"
+                jsonop = callback+"([" + sresponse[:-1] + "])"
 
-        self.response.write(json)
+        self.response.write(jsonop)
 
 
 class UrlHandler(webapp2.RequestHandler):
@@ -145,16 +147,33 @@ class UrlHandler(webapp2.RequestHandler):
         self.response.out.write(upload)
 
 
-class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+class UploadHandler(webapp2.RequestHandler):
     def post(self):
+        logging.getLogger().setLevel(logging.DEBUG)
         currentuser = users.get_current_user()
         if currentuser:
-            uploader = ndb.Key(User, users.get_current_user().user_id()).get()
-            upload_files = self.get_uploads("blob")
-            description = self.request.get("description")
-            blob = upload_files[0]
-            photo = Photo(userid=uploader.key, blob_key=blob.key(), description=description)
-            photo.put()
+            try:
+                uploader = ndb.Key(User, users.get_current_user().user_id()).get()
+                data = json.loads(self.request.body)
+
+                upload_files = data['blob']
+                print(upload_files)
+                data_to_64 = re.search(r'base64,(.*)', upload_files).group(1)
+                decoded = data_to_64.decode('base64')
+
+                saved = files.blobstore.create(mime_type='image/jpg')
+                with files.open(saved, 'a') as f:
+                    f.write(decoded)
+                files.finalize(saved)
+                key = files.blobstore.get_blob_key(saved)
+                description = data['description']
+                tags = re.findall(r"#(\w+)", description)
+                photo = Photo(userid=uploader.key, photoid=str(key), blob_key=key, description=description, tags=tags)
+                photo.key = ndb.Key(Photo, photo.photoid)
+                photo.put()
+            except Exception, e:
+                print e
+                return 404
         else:
             return "user logged out"
 
@@ -211,18 +230,18 @@ class UserHandler(webapp2.RequestHandler):
     def get(self, resource):
         callback = self.request.get("callback")
         resource = str(urllib.unquote(resource))
-        json = None
+        jsonop = None
         sresponse = ""
         userid = ""
         username = ""
         if resource is '':
-            json = '{"error":"User is Query is Blank"}'
+            jsonop = '{"error":"User is Query is Blank"}'
 
         else:
             qry = User.query(User.index == resource.lower())
             results = qry.fetch()
             if len(results) < 1:
-                json = '{"error":"User ' + resource + ' Not Found"}'
+                jsonop = '{"error":"User ' + resource + ' Not Found"}'
             else:
                 for user in results:
                     sresponse = user.tojson()[:-1] + ', "images":['
@@ -233,11 +252,11 @@ class UserHandler(webapp2.RequestHandler):
                 for picture in pictures:
                     sresponse += picture.tojson(username) + ','
                     if callback is '':
-                        json = sresponse[:-1] + "]}"
+                        jsonop = sresponse[:-1] + "]}"
                     else:
-                        json = callback+"([" + sresponse[:-1] + "]}])"
+                        jsonop = callback+"([" + sresponse[:-1] + "]}])"
 
-        self.response.write(json)
+        self.response.write(jsonop)
 
     def post(self):
         name = self.request.get("name")
@@ -249,6 +268,7 @@ class UserHandler(webapp2.RequestHandler):
             currentuser[0].index = name.lower()
         else:
             self.response.write("Name Taken!")
+
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self, url):
