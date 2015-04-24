@@ -91,7 +91,7 @@ function formatPost(postBody) {
             "<form>" +
             "<button name='allowComment' value='"+postBody.src+"' type='button' class='btn btn-default'><span class='comment glyphicon glyphicon-pencil' aria-hidden='true'></span></button>" +
             "<button style='display:none;' type='button' name='comment' id='but-"+postBody.src+"' value='"+postBody.src+"' class='btn btn-default'><span class='comment glyphicon glyphicon-send' aria-hidden='true'></span></button></form>" +
-            "<textarea style='display:none;' rows='4' cols='40' id='"+postBody.photoid+"'></textarea>";
+            "<textarea style='display:none;' rows='4' cols='40' id='"+postBody.src+"'></textarea>";
     html += "</div>";
     return html;
 }
