@@ -8,7 +8,7 @@
 # id.
 
 application: snackerapp
-version: alpha-310
+version: alpha-320
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -27,13 +27,18 @@ handlers:
   mime_type: "text/html"
 
 - url: /user
-  static_files: user.html
-  upload: user.html
+  static_files: viewuser.html
+  upload: viewuser.html
   mime_type: "text/html"
 
 - url: /profile
   static_files: profile.html
   upload: profile.html
+  mime_type: "text/html"
+
+- url: /release
+  static_files: release.html
+  upload: release.html
   mime_type: "text/html"
 # access the static resources in the root director
 

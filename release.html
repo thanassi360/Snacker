@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html manifest="app.manifest">
+<head lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
+    <title>Releases</title>
+    <script src="js/jquery-1.11.2.js"></script>
+    <script src="js/main.js"></script>
+    <script src="css/bootstrap/js/bootstrap.min.js"></script>
+    <link href="css/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body onload="setVersion()">
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Snacker</a><a class="navbar-brand super" id="release" href="/release"></a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="timeline">
+        <fieldset>
+            <legend>Snacker v1.02</legend>
+            Version 1.02 includes the following functionality:
+            <ul>
+                <li>
+                    <ul>Timeline:
+                        <li>Comment posting is now available</li>
+                        <li>Improved timeline interaction</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>Image Posting:
+                        <li>Automatically loads the timeline when posted</li>
+
+                    </ul>
+                </li>
+                <li>
+                    <ul>Profile Page:
+                        <li>Update Username and/or Bio available</li>
+                        <li>Improved profile page</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>View User Page:
+                        <li>Improved profile pages</li>
+                    </ul>
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Snacker v1.01</legend>
+            Version 1.01 includes the following functionality:
+            <ul>
+                <li>
+                    <ul>Timeline:
+                        <li>Viewing posted images and description</li>
+                        <li>Dummy comment posting (coming v1.02)</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>Image Posting:
+                        <li>Taking pictures or choosing a saved image</li>
+                        <li>Cropping images</li>
+                        <li>Adding a description</li>
+                        <li>Not currently sending user back to Timeline (coming v1.02)</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>Profile Page:
+                        <li>Viewing posted images of current user</li>
+                        <li>Dummy update detail table (coming v1.02)</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>View User Page:
+                        <li>Viewing posted images of selected user</li>
+                    </ul>
+                </li>
+            </ul>
+        </fieldset>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div role="group" class="btn-group-lg btn-group-justified">
+            <a href="/" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+            <a href="/capture" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span></a>
+            <a href="/profile" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

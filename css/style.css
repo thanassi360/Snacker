@@ -6,11 +6,23 @@
     border: none;
 }
 
+p{
+    margin: 5px 5px 10px;
+}
+
 .navbar-brand{
     font-family: 'Lobster', cursive;
     font-size: 54px;
-    text-indent: 36px;
+    text-indent: 20px;
     margin-top: 8px;
+    padding-left: 0px;
+}
+.super{
+    font-family: 'Lobster', cursive;
+    font-size: 20px;
+    text-indent: 0;
+    margin-top: 12px;
+    padding: 0;
 }
 #content img{
 
@@ -61,6 +73,7 @@
 }
 .postImage{
     width:95%;
+	margin: 2.5%;
 }
 #userTable tr td{
     padding:1px;
@@ -77,11 +90,19 @@
 }
 textarea{
     resize: none;
+	width: 100%;
 }
 .comment{
     font-size: 20px;
 }
-
+.singleCom{
+    border-top: 1px solid white;
+    background-color: #dbebeb;
+}
+.userThumb{
+    width:45%;
+    margin: 4px;
+}
 /*////// Cropping Tool //////*/
 .cropit-image-preview {
     background-color: #f8f8f8;
@@ -107,9 +128,6 @@ button[type="submit"] {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#result {
-    margin-top: 10px;
-}
 #result-data {
     display: block;
     overflow: hidden;
@@ -120,5 +138,7 @@ button[type="submit"] {
 .cropit-image-zoom-input{
 
 }
-
+#show-description{
+    display:none;
+}
 /*////// End Of Cropping Tool //////*/

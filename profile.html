@@ -1,46 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html manifest="app.manifest">
 <head lang="en">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
     <title>User</title>
     <script src="js/jquery-1.11.2.js"></script>
     <script src="css/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/currentUserScript.js"></script>
+    <script src="js/main.js"></script>
     <link href="css/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
-
-<body>
+<body onload="profilePage()">
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </button>
-                <a class="navbar-brand" href="/">Snacker</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a>LOGIN</a>
-                    </li>
-                    <form class="navbar-form navbar-left" role="search">
-                        <li>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Familien skal i skoven">
-                            <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </button>
-                            </span>
-                            </div>
-                        </li>
-                    </form>
-                </ul>
+                <a class="navbar-brand" href="/">Snacker</a><a class="navbar-brand super" id="release" href="/release"></a>
             </div>
         </div>
     </nav>
@@ -49,7 +26,7 @@
         <div id="statusUpdate">
             <span id="status"></span> - <span id="lastUpdate"></span>
         </div>
-        <div id="userfeed">
+        <div id="feed">
 
         </div>
     </div>
@@ -57,7 +34,7 @@
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div role="group" class="btn-group-lg btn-group-justified">
             <a href="/" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
-            <a href="/capture" class="btn btn-lg" role="button"><img src="images/camera.png" alt="capture" height="50px"></a>
+            <a href="/capture" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span></a>
             <a href="/profile" class="btn btn-lg" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
         </div>
     </nav>

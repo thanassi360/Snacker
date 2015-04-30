@@ -1,0 +1,33 @@
+CACHE MANIFEST
+# 2015-04-30  v1.45
+
+
+CACHE:
+/
+/css/style.css
+/css/bootstrap/css/bootstrap.css
+/css/bootstrap/css/bootstrap.css.map
+/css/bootstrap/css/bootstrap.min.css
+/css/bootstrap/css/bootstrap-theme.css
+/css/bootstrap/css/bootstrap-theme.css.map
+/css/bootstrap/css/bootstrap-theme.min.css
+/css/bootstrap/fonts/glyphicons-halflings-regular.eot
+/css/bootstrap/fonts/glyphicons-halflings-regular.svg
+/css/bootstrap/fonts/glyphicons-halflings-regular.ttf
+/css/bootstrap/fonts/glyphicons-halflings-regular.woff
+/css/bootstrap/fonts/glyphicons-halflings-regular.woff2
+/css/bootstrap/js/bootstrap.js
+/css/bootstrap/js/bootstrap.min.js
+/css/bootstrap/js/npm.js
+/images/camera.png
+/images/favicon.png
+/js/jquery-1.11.2.js
+/js/jquery.cropit.js
+/js/main.js
+http://fonts.googleapis.com/css?family=Lobster
+
+SETTINGS:
+prefer-online
+
+NETWORK:
+*
